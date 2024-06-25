@@ -1,6 +1,10 @@
 // calculator operations
-firstOperand = 4;
-secondOperand = 4;
+const calculator = document.querySelector('.calculator');
+const display = document.querySelector('.display');
+const keys = document.querySelector('.keys');
+let firstOperand;
+let secondOperand;
+let displayValue;
 
 const add = function(firstOperand, secondOperand) {
     return firstOperand + secondOperand;
@@ -18,7 +22,7 @@ const multiply = function(firstOperand, secondOperand) {
     return firstOperand * secondOperand;
 };
 
-const operate(operator, firstOperand, secondOperand) {
+const operate = function (operator, firstOperand, secondOperand) {
     let result;
     switch (operator) {
         case "+":
@@ -36,8 +40,14 @@ const operate(operator, firstOperand, secondOperand) {
         case "*":
             result = multiply(firstOperand, secondOperand);
             break;
-            
+
         default:
             break;
     }
+    return result;
 }
+
+keys.addEventListener('click', (event) => {
+    displayValue = event.target.value || '';
+    display.innerText += displayValue;
+});
