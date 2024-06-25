@@ -1,7 +1,7 @@
 // calculator operations
 const calculator = document.querySelector('.calculator');
 const display = document.querySelector('.display');
-const keys = document.querySelector('.keys');
+const keyContainer = document.querySelector('.key-container');
 let firstOperand;
 let secondOperand;
 let displayValue;
@@ -47,7 +47,7 @@ const operate = function (operator, firstOperand, secondOperand) {
     return result;
 }
 
-keys.addEventListener('click', (event) => {
+keyContainer.addEventListener('click', (event) => {
     displayValue = event.target.value || '';
     display.innerText += displayValue;
 });
