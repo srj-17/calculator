@@ -100,12 +100,7 @@ keyContainer.addEventListener('click', (press) => {
                 [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                 displayValue = memory.accumulator;
             }
-            // this might not be necessary (for second todo) // delete this comment
-            // ********************************************* I'm here
-            let temp = memory.accumulator;
-            memory.clear();
             memory.displayBuffer = value;
-            memory.accumulator = temp;
         } else { // for other operators than '='
             if (!memory.accumulator) {
                 memory.accumulator = displayValue;
