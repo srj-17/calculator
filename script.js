@@ -60,6 +60,13 @@ let memory = {
     
     full() {
         return this.accumulator && this.secondNumber && this.operator;
+    },
+
+    clear() {
+        this.accumulator = null;
+        this.displayBuffer = null;
+        this.operator = null;
+        this.secondNumber = null;
     }
 }
 
@@ -93,7 +100,12 @@ keyContainer.addEventListener('click', (press) => {
                 [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                 displayValue = memory.accumulator;
             }
+            // this might not be necessary (for second todo) // delete this comment
+            // ********************************************* I'm here
+            let temp = memory.accumulator;
+            memory.clear();
             memory.displayBuffer = value;
+            memory.accumulator = temp;
         } else { // for other operators than '='
             if (!memory.accumulator) {
                 memory.accumulator = displayValue;
@@ -130,6 +142,7 @@ keyContainer.addEventListener('click', (press) => {
                 break;
             case 'clear':
                 displayValue = '0';
+                memory.clear();
                 output(displayValue);
                 break;
             case 'percent':
@@ -151,3 +164,6 @@ output(displayValue);
 
 // if extra, manipulate the number in display and store it
 
+// TODO: On first click of numbers, make the display blank and store the numbers
+
+// todo: = garera + garna mildaina, need to save the value in accumulator
