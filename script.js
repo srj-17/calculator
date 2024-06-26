@@ -31,6 +31,7 @@ const multiply = function(accumulator, secondNumber) {
 let memory = {
     accumulator: null, // fistNumber acts as accumulator
     secondNumber: null,
+    displayBuffer: null,
     operator: null,
     operate (operator, accumulator, secondNumber) {
         let result;
@@ -64,7 +65,7 @@ let memory = {
 
 function operatorKeyContains(value) {
     let yes = operatorKeys.reduce((containsDisplayValue, operatorKey) => {
-                return (operatorKey.value === value) ? containsDisplayValue || true : containsDisplayValue || false;  
+                return (operatorKey.value === value) ? (containsDisplayValue || true) : (containsDisplayValue || false);  
             }, false);
     return yes;
 }
@@ -72,8 +73,9 @@ function operatorKeyContains(value) {
 // receive a button press
 keyContainer.addEventListener('click', (press) => {
     value = press.target.value;
-    if (operatorKeyContains(displayValue)) {
+    if (operatorKeyContains(memory.displayBuffer)) {
         displayValue = '';
+        memory.displayBuffer = null;
     } 
     if (numKeys.includes(press.target)) {
         displayValue = displayValue.concat(value);
@@ -91,27 +93,29 @@ keyContainer.addEventListener('click', (press) => {
                 [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                 displayValue = memory.accumulator;
             }
-            output(displayValue);
-        } else {
+            memory.displayBuffer = value;
+        } else { // for other operators than '='
             if (!memory.accumulator) {
                 memory.accumulator = displayValue;
                 memory.secondNumber = null;
                 memory.operator = value;
-            } else if (!memory.secondNumber) {
-                memory.secondNumber = displayValue;
-                memory.operator = value;
-            } else {
+            } //else if (!memory.secondNumber) {
+                // memory.secondNumber = displayValue;
+                // memory.operator = value;
+            //}
+             else {
                 [memory.accumulator, memory.secondNumber] = 
-                [memory.operate(memory.operator, memory.accumulator, memory.secondNumber), null];
-                memory.operator = value;
+                [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                 displayValue = memory.accumulator;
+                memory.operator = value;
             }
-            displayValue = value; // next time accessed, if displayValue is seen value, 
-                                      // then empty display
-                                    }
-        } else if (extraKeys.includes(press.target)) {
-            console.log("oooohooohohoh todo");
+            memory.displayBuffer = value; // next time accessed, if displayBuffer is seen as operator, 
+                                      // then display thd displayValue and empty displayValue
+        }
+    } else if (extraKeys.includes(press.target)) {
+        console.log("oooohooohohoh todo");
 }
+output(displayValue);
 })
 
 // check what it is (number, operator or extra)
