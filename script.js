@@ -85,7 +85,8 @@ keyContainer.addEventListener('click', (press) => {
             } // else if (!displayValue) {
                 // displayValue = 'Not Calculable';
                 // even if displayValue is Null, or '', it should return correct result as a + 0 = a
-            } else {
+            // }
+            else {
                 [memory.accumulator, memory.secondNumber] = 
                 [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                 displayValue = memory.accumulator;
@@ -110,6 +111,7 @@ keyContainer.addEventListener('click', (press) => {
                                     }
         } else if (extraKeys.includes(press.target)) {
             console.log("oooohooohohoh todo");
+}
 })
 
 // check what it is (number, operator or extra)
