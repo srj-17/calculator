@@ -91,10 +91,7 @@ keyContainer.addEventListener('click', (press) => {
         if (value === '=') {
             if (!memory.accumulator) {
                 displayValue = 'Not Calculable';
-            } // else if (!displayValue) {
-                // displayValue = 'Not Calculable';
-                // even if displayValue is Null, or '', it should return correct result as a + 0 = a
-            // }
+            } 
             else {
                 [memory.accumulator, memory.secondNumber] = 
                 [memory.operate(memory.operator, memory.accumulator, displayValue), null];
@@ -106,11 +103,8 @@ keyContainer.addEventListener('click', (press) => {
                 memory.accumulator = displayValue;
                 memory.secondNumber = null;
                 memory.operator = value;
-            } //else if (!memory.secondNumber) {
-                // memory.secondNumber = displayValue;
-                // memory.operator = value;
-            //}
-             else {
+            } 
+            else {
                 [memory.accumulator, memory.secondNumber] = 
                 [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                 displayValue = memory.accumulator;
