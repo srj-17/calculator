@@ -5,109 +5,118 @@ const keyContainer = document.querySelector('.key-container');
 const numKeys = Array.from(document.querySelectorAll('.num-key'));
 const operatorKeys = Array.from(document.querySelectorAll('.operator-key'));
 const extraKeys = Array.from(document.querySelectorAll('.x-key'));
-let firstOperand = null;
-let secondOperand = null;
 let displayValue = '';
-let memValue = [];
 
-const add = function(firstOperand, secondOperand) {
-    return firstOperand + secondOperand;
-};
-
-const subtract = function(firstOperand, secondOperand) {
-    return firstOperand - secondOperand;
-};
-
-const divide = function(firstOperand, secondOperand) {
-    return firstOperand / secondOperand;
+function output (text) {
+    display.textContent = text;
 }
 
-const multiply = function(firstOperand, secondOperand) {
-    return firstOperand * secondOperand;
+const add = function(accumulator, secondNumber) {
+    return accumulator + secondNumber;
 };
 
-const operate = function (operator, firstOperand, secondOperand) {
-    let result;
-    switch (operator) {
-        case "+":
-            result = add(+firstOperand, +secondOperand);   
-            break;
-        
-        case "-":
-            result = subtract(+firstOperand, +secondOperand);
-            break;
-        
-        case "/":
-            result = divide(+firstOperand, +secondOperand);
-            break;
+const subtract = function(accumulator, secondNumber) {
+    return accumulator - secondNumber;
+};
 
-        case "*":
-            result = multiply(+firstOperand, +secondOperand);
-            break;
+const divide = function(accumulator, secondNumber) {
+    return accumulator / secondNumber;
+}
 
-        default:
-            break;
+const multiply = function(accumulator, secondNumber) {
+    return accumulator * secondNumber;
+};
+
+// calc object for storing what's in calculator's memory
+let memory = {
+    accumulator: null, // fistNumber acts as accumulator
+    secondNumber: null,
+    operator: null,
+    operate (operator, accumulator, secondNumber) {
+        let result;
+        switch (operator) {
+            case "+":
+                result = add(+accumulator, +secondNumber);   
+                break;
+            
+            case "-":
+                result = subtract(+accumulator, +secondNumber);
+                break;
+            
+            case "/":
+                result = divide(+accumulator, +secondNumber);
+                break;
+    
+            case "*":
+                result = multiply(+accumulator, +secondNumber);
+                break;
+    
+            default:
+                break;
+        }
+        return String(result);
+    }, 
+    
+    full() {
+        return this.accumulator && this.secondNumber && this.operator;
     }
-    return String(result);
 }
 
-keyContainer.addEventListener('click', (event) => {
-    if (event.target.value in numKeys) {
-        if (memValue.length === 3) {
-            displayValue = memValue.shift;
+function operatorKeyContains(value) {
+    let yes = operatorKeys.reduce((containsDisplayValue, operatorKey) => {
+                return (operatorKey.value === value) ? containsDisplayValue || true : containsDisplayValue || false;  
+            }, false);
+    return yes;
+}
+
+// receive a button press
+keyContainer.addEventListener('click', (press) => {
+    value = press.target.value;
+    if (operatorKeyContains(displayValue)) {
+        displayValue = '';
+    } 
+    if (numKeys.includes(press.target)) {
+        displayValue = displayValue.concat(value);
+        output(displayValue);
+    } else if (operatorKeys.includes(press.target)) {
+        if (value === '=') {
+            if (!memory.accumulator) {
+                displayValue = 'Not Calculable';
+            } // else if (!displayValue) {
+                // displayValue = 'Not Calculable';
+                // even if displayValue is Null, or '', it should return correct result as a + 0 = a
+            } else {
+                [memory.accumulator, memory.secondNumber] = 
+                [memory.operate(memory.operator, memory.accumulator, displayValue), null];
+                displayValue = memory.accumulator;
+            }
+            output(displayValue);
         } else {
-            if (memValue.at(-1) in operatorKeys) {
-                memValue = memValue.unshift()
-            }
-            displayValue = displayValue.concat(event.target.value);
-        } 
-        display.textContent = displayValue;
-    } else if (event.target.value in operatorKeys) {
-        if (memValue.length === 3) {
-            displayValue = operate(memValue[1], parseFloat(memValue[0]),
-                           parseFloat(memValue[2]));
-            if (event.target.value === '=') {
-                display.textContent = displayValue;
-                memValue = [].concat(displayValue);
+            if (!memory.accumulator) {
+                memory.accumulator = displayValue;
+                memory.secondNumber = null;
+                memory.operator = value;
+            } else if (!memory.secondNumber) {
+                memory.secondNumber = displayValue;
+                memory.operator = value;
             } else {
-                display.textContent = displayValue;
-                memValue = [displayValue, event.target.value, ''];
-                // last value pops out next time numeric value is pressed
+                [memory.accumulator, memory.secondNumber] = 
+                [memory.operate(memory.operator, memory.accumulator, memory.secondNumber), null];
+                memory.operator = value;
+                displayValue = memory.accumulator;
             }
-        } else { // if (memValue.length < 3) 
-            if (event.target.value === '=') {
-                display.textContent = 'Not Calculable';
-            } else {
-                memValue = memValue.concat(event.target.value);
-            }
-        }
-    } else { // in extraKeys
-        switch(event.target.value) {
-            case '.':
-                if (displayValue === '') {
-                    displayValue = '.';
-                    display.textContent = displayValue;
-                } else {
-                    displayValue = displayValue.concat(event.target.value);
-                    display.textContent = displayValue;
-                }
-            case 'clear':
-                display.textContent = '';
-                memValue = [];
-            case 'sign':
-                if (display === ''){
-                    displayValue = displayValue.concat(event.target.textContent);
-                    // don't display, we're just keeping it for the next number
-                } else {
-                    if (Math.sign(displayValue)) { // in case displayValue doesn't already have some special character except number like "-"    
-                        if (Math.sign(displayValue) === 1) {
-                            displayValue = String(-displayValue);
-                        } else if (Math.sign(displayValue) === -1) { 
-                            displayValue = String(Math.abs(displayValue));
-                        } 
-                    }
-                }
-        }
-    }
-});
+            displayValue = value; // next time accessed, if displayValue is seen value, 
+                                      // then empty display
+                                    }
+        } else if (extraKeys.includes(press.target)) {
+            console.log("oooohooohohoh todo");
+})
+
+// check what it is (number, operator or extra)
+
+// if number, display the number
+
+// if operator, process the number and store, display
+
+// if extra, manipulate the number in display and store it
 
