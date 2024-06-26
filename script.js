@@ -113,7 +113,32 @@ keyContainer.addEventListener('click', (press) => {
                                       // then display thd displayValue and empty displayValue
         }
     } else if (extraKeys.includes(press.target)) {
-        console.log("oooohooohohoh todo");
+        switch (value) {
+            case '.':
+                if (!displayValue.includes('.')) {
+                    displayValue = displayValue.concat(value);
+                } 
+                output(displayValue);
+                break;
+            case 'sign':
+                if (displayValue.at(0) === '-') {
+                    displayValue = displayValue.split('').toSpliced(0, 1).join('');
+                } else {
+                    displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                }
+                output(displayValue);
+                break;
+            case 'clear':
+                displayValue = '0';
+                output(displayValue);
+                break;
+            case 'percent':
+                displayValue = String(parseFloat(displayValue) / 100);
+                output(displayValue);
+                break;
+            default:
+                break;
+        }
 }
 output(displayValue);
 })
