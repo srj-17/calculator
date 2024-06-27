@@ -101,23 +101,31 @@ keyContainer.addEventListener('click', (press) => {
                     memory.accumulator = displayValue; // yo third ko else le nai gardincha ki jasto lagyo
                 } 
                 else if (memory.operator === '=') {
-                    displayValue = memory.accumulator; // for double = presses
-                    memory.accumulator = displayValue;
-                }
-                else {
+                    // ************************
+                    // for double = presses
+                    // because displayValue = '' because of displayBuffer = '=' during previous =, 
+                    if (memory.displayBuffer !== null) {
+                        memory.displayValue = memory.accumulator;
+                        memory.displayBuffer = null;
+                    }
+                    // don't do this if previous operation was = 
+                } else {
                     [memory.accumulator, memory.secondNumber] = 
                     [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                     displayValue = memory.accumulator;
                 }
-                memory.operator = value;
                 memory.displayBuffer = value;
-            } else { // for other operators than '='
+                memory.operator = value;
+            } else { // for other operators than '=', eg: +
                 if (!memory.accumulator) { // **************
-                    if (memory.operator) {
+                    if (memory.operator && memory.operator !== '=') {
                         displayValue = memory.accumulator;
                     }
                     memory.accumulator = displayValue;
                     memory.operator = value;
+                } else if (memory.operator === '=') {
+                        memory.accumulator = displayValue;
+                        memory.operator = value;
                 } else {
                     [memory.accumulator, memory.secondNumber] = 
                     [memory.operate(memory.operator, memory.accumulator, displayValue), null];
@@ -184,3 +192,5 @@ keyContainer.addEventListener('click', (press) => {
 // if operator, process the number and store, display
 
 // if extra, manipulate the number in display and store it
+
+// TODO: when 2 = is pressed after a = operation, it shows previous value of accumulator
