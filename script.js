@@ -98,9 +98,10 @@ keyContainer.addEventListener('click', (press) => {
         } else if (operatorKeys.includes(press.target)) {
             if (value === '=') {
                 if (!memory.accumulator) {
-                    displayValue = 'Not Calculable';
+                    memory.accumulator = displayValue; // yo third ko else le nai gardincha ki jasto lagyo
                 } 
                 else if (memory.operator === '=') {
+                    displayValue = memory.accumulator;
                     memory.accumulator = displayValue;
                 }
                 else {
@@ -111,15 +112,10 @@ keyContainer.addEventListener('click', (press) => {
                 memory.operator = value;
                 memory.displayBuffer = value;
             } else { // for other operators than '='
-                if (!memory.accumulator) {
-                    memory.accumulator = displayValue;
-                    memory.secondNumber = null;
-                    memory.operator = value;
-                } else if (memory.operator === '=') {
-                    memory.accumulator = displayValue;
-                    memory.operator = value;
-                }
-                else {
+                if (!memory.accumulator || memory.operator === '=') {
+                        memory.accumulator = displayValue;
+                        memory.operator = value;
+                } else {
                     [memory.accumulator, memory.secondNumber] = 
                     [memory.operate(memory.operator, memory.accumulator, displayValue), null];
                     displayValue = memory.accumulator;
@@ -129,34 +125,33 @@ keyContainer.addEventListener('click', (press) => {
                                           // then display thd displayValue and empty displayValue
             }
         } else if (extraKeys.includes(press.target)) {
-            switch (value) {
-                case '.':
-                    if (!displayValue.includes('.')) {
-                        displayValue = displayValue.concat(value);
-                    } 
-                    output(displayValue);
-                    break;
-                case 'sign':
-                    if (displayValue.at(0) === '-') {
-                        displayValue = displayValue.split('').toSpliced(0, 1).join('');
-                    } else {
-                        displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
-                    }
-                    output(displayValue);
-                    break;
-                case 'clear':
-                    displayValue = '0';
-                    memory.clear();
-                    output(displayValue);
-                    break;
-                case 'percent':
-                    displayValue = String(parseFloat(displayValue) / 100);
-                    output(displayValue);
-                    break;
-                default:
-                    break;
-            }
-
+                switch (value) {
+                    case '.':
+                        if (!displayValue.includes('.')) {
+                            displayValue = displayValue.concat(value);
+                        } 
+                        output(displayValue);
+                        break;
+                    case 'sign':
+                        if (displayValue.at(0) === '-') {
+                            displayValue = displayValue.split('').toSpliced(0, 1).join('');
+                        } else {
+                            displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                        }
+                        output(displayValue);
+                        break;
+                    case 'clear':
+                        displayValue = '0';
+                        memory.clear();
+                        output(displayValue);
+                        break;
+                    case 'percent':
+                        displayValue = String(parseFloat(displayValue) / 100);
+                        output(displayValue);
+                        break;
+                    default:
+                        break;
+                }
         }
         // just to be sure
         if (displayValue === '') {
@@ -180,3 +175,5 @@ keyContainer.addEventListener('click', (press) => {
 //       eg: adding 5 + '.'
 //       I think the solution can be completely removing the capability of adding '.' ---- 1
 //       See this behaviour in CALC YA LATER and solve accordingly
+
+// TODO: 1 = and again = then 0, this happens because of line 86, 
