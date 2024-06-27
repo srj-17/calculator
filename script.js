@@ -85,8 +85,9 @@ keyContainer.addEventListener('click', (press) => {
             displayValue = '';
         }
         if (numKeys.includes(press.target)) {
-            if (memory.operator) {
+            if (memory.displayBuffer) { // this doesn't allow to store more than 1 number
                 displayValue = '';
+                memory.displayBuffer = false;
             }
             displayValue = displayValue.concat(value);
             output(displayValue);
@@ -94,8 +95,7 @@ keyContainer.addEventListener('click', (press) => {
             if (!memory.accumulator) { 
                 memory.accumulator = displayValue;
                 memory.operator = value;
-            } 
-            else {
+            } else {
                 memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue);
                 displayValue = memory.accumulator;
                 memory.operator = value;
@@ -103,6 +103,7 @@ keyContainer.addEventListener('click', (press) => {
                     displayValue = memory.accumulator;
                 }
             }
+            memory.displayBuffer = true;
         } else if (extraKeys.includes(press.target)) {
             // if extra key comes directly after +, setting it up for later (esp. % and -)
             switch (value) {
@@ -150,3 +151,5 @@ keyContainer.addEventListener('click', (press) => {
 // if operator, process the number and store, display
 
 // if extra, manipulate the number in display and store it
+
+// TODO: CAN'T STORE MORE THAN 1 NUMBER; LINE 88
