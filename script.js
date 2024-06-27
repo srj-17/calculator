@@ -105,39 +105,29 @@ keyContainer.addEventListener('click', (press) => {
             }
         } else if (extraKeys.includes(press.target)) {
             // if extra key comes directly after +, setting it up for later (esp. % and -)
-            if (memory.accumulator && memory.operator) {
-                displayValue = memory.accumulator; 
+            switch (value) {
+                case '.':
+                    if (!displayValue.includes('.')) {
+                        displayValue = displayValue.concat(value);
+                    }
+                    break;
+                case 'sign':
+                    if (displayValue.at(0) === '-') {
+                        displayValue = displayValue.split('').toSpliced(0, 1).join('');
+                    } else {
+                        displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                    }
+                    break;
+                case 'clear':
+                    displayValue = '0';
+                    memory.clear();
+                    break;
+                case 'percent':
+                    displayValue = String(parseFloat(displayValue) / 100);
+                    break;
+                default:
+                    break;
             }
-                switch (value) {
-                    case '.':
-                        if (!displayValue.includes('.')) {
-                            displayValue = displayValue.concat(value);
-                        }
-                        if (memory.accumulator && memory.operator) {
-                            displayValue = '0.';
-                        }
-                        output(displayValue);
-                        break;
-                    case 'sign':
-                        if (displayValue.at(0) === '-') {
-                            displayValue = displayValue.split('').toSpliced(0, 1).join('');
-                        } else {
-                            displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
-                        }
-                        output(displayValue);
-                        break;
-                    case 'clear':
-                        displayValue = '0';
-                        memory.clear();
-                        output(displayValue);
-                        break;
-                    case 'percent':
-                        displayValue = String(parseFloat(displayValue) / 100);
-                        output(displayValue);
-                        break;
-                    default:
-                        break;
-                }
         }
         // just to be sure
         if (displayValue === '') {
