@@ -112,9 +112,12 @@ keyContainer.addEventListener('click', (press) => {
                 memory.operator = value;
                 memory.displayBuffer = value;
             } else { // for other operators than '='
-                if (!memory.accumulator || memory.operator === '=') { // **************
-                        memory.accumulator = displayValue;
-                        memory.operator = value;
+                if (!memory.accumulator) { // **************
+                    if (memory.operator) {
+                        displayValue = memory.accumulator;
+                    }
+                    memory.accumulator = displayValue;
+                    memory.operator = value;
                 } else {
                     [memory.accumulator, memory.secondNumber] = 
                     [memory.operate(memory.operator, memory.accumulator, displayValue), null];
@@ -181,12 +184,3 @@ keyContainer.addEventListener('click', (press) => {
 // if operator, process the number and store, display
 
 // if extra, manipulate the number in display and store it
-
-// TODO: when adding any number other than numeric, it shows NaN, instead, show 'Not Computable' or sth
-//       eg: adding 5 + '.'
-//       I think the solution can be completely removing the capability of adding '.' ---- 1
-//       See this behaviour in CALC YA LATER and solve accordingly
-
-// todo: the result after = is not sign changed by the press of +/-
-//       no need to do this for results after add, subtract repeatedly, i think
-// dude, = pachi tesi ma operate gartheo, tyo garnai chodyo ta kina ho damn
