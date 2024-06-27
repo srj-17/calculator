@@ -121,7 +121,7 @@ keyContainer.addEventListener('click', (press) => {
                     memory.accumulator = displayValue;
                     memory.operator = value;
                 } else if (memory.operator === '=') {
-                    displayValue = memory.accumulator; // because it was set null above after passing displayBuffer = (or whatever) 
+                    memory.accumulator = displayValue; 
                     memory.operator = value;
                 } else {
                     [memory.accumulator, memory.secondNumber] = 
@@ -190,6 +190,6 @@ keyContainer.addEventListener('click', (press) => {
 
 // if extra, manipulate the number in display and store it
 
-// TODO: 2 + 3 = + ==> shows 0, similar to the = problem solved just before
+// TODO: 
 
 // TODO: 
