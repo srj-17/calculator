@@ -53,6 +53,7 @@ let memory = {
                 break;
     
             default:
+                result = accumulator;
                 break;
         }
         return String(result);
@@ -80,69 +81,80 @@ function operatorKeyContains(value) {
 // receive a button press
 keyContainer.addEventListener('click', (press) => {
     value = press.target.value;
-    if (operatorKeyContains(memory.displayBuffer)) {
-        displayValue = '';
-        memory.displayBuffer = null;
-    } 
-    if (numKeys.includes(press.target)) {
-        displayValue = displayValue.concat(value);
-        output(displayValue);
-    } else if (operatorKeys.includes(press.target)) {
-        if (value === '=') {
-            if (!memory.accumulator) {
-                displayValue = 'Not Calculable';
-            } 
-            else {
-                [memory.accumulator, memory.secondNumber] = 
-                [memory.operate(memory.operator, memory.accumulator, displayValue), null];
-                displayValue = memory.accumulator;
-            }
-            memory.displayBuffer = value;
-        } else { // for other operators than '='
-            if (!memory.accumulator) {
-                memory.accumulator = displayValue;
-                memory.secondNumber = null;
-                memory.operator = value;
-            } 
-            else {
-                [memory.accumulator, memory.secondNumber] = 
-                [memory.operate(memory.operator, memory.accumulator, displayValue), null];
-                displayValue = memory.accumulator;
-                memory.operator = value;
-            }
-            memory.displayBuffer = value; // next time accessed, if displayBuffer is seen as operator, 
-                                      // then display thd displayValue and empty displayValue
+    if (value) {
+        // if button pressed after an operator button
+        if (operatorKeyContains(memory.displayBuffer)) {
+            displayValue = '';
+            memory.displayBuffer = null;
+        } 
+
+        // for initial operation after turning calculator on
+        if (displayValue === '0') {
+            displayValue = '';
         }
-    } else if (extraKeys.includes(press.target)) {
-        switch (value) {
-            case '.':
-                if (!displayValue.includes('.')) {
-                    displayValue = displayValue.concat(value);
+        if (numKeys.includes(press.target)) {
+            displayValue = displayValue.concat(value);
+            output(displayValue);
+        } else if (operatorKeys.includes(press.target)) {
+            if (value === '=') {
+                if (!memory.accumulator) {
+                    displayValue = 'Not Calculable';
                 } 
-                output(displayValue);
-                break;
-            case 'sign':
-                if (displayValue.at(0) === '-') {
-                    displayValue = displayValue.split('').toSpliced(0, 1).join('');
-                } else {
-                    displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                else {
+                    [memory.accumulator, memory.secondNumber] = 
+                    [memory.operate(memory.operator, memory.accumulator, displayValue), null];
+                    displayValue = memory.accumulator;
                 }
-                output(displayValue);
-                break;
-            case 'clear':
-                displayValue = '0';
-                memory.clear();
-                output(displayValue);
-                break;
-            case 'percent':
-                displayValue = String(parseFloat(displayValue) / 100);
-                output(displayValue);
-                break;
-            default:
-                break;
-        }
-}
-output(displayValue);
+                memory.operator = value;
+                memory.displayBuffer = value;
+            } else { // for other operators than '='
+                if (!memory.accumulator) {
+                    memory.accumulator = displayValue;
+                    memory.secondNumber = null;
+                    memory.operator = value;
+                } 
+                else {
+                    [memory.accumulator, memory.secondNumber] = 
+                    [memory.operate(memory.operator, memory.accumulator, displayValue), null];
+                    displayValue = memory.accumulator;
+                    memory.operator = value;
+                }
+                memory.displayBuffer = value; // next time accessed, if displayBuffer is seen as operator, 
+                                          // then display thd displayValue and empty displayValue
+            }
+        } else if (extraKeys.includes(press.target)) {
+            switch (value) {
+                case '.':
+                    if (!displayValue.includes('.')) {
+                        displayValue = displayValue.concat(value);
+                    } 
+                    output(displayValue);
+                    break;
+                case 'sign':
+                    if (displayValue.at(0) === '-') {
+                        displayValue = displayValue.split('').toSpliced(0, 1).join('');
+                    } else {
+                        displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                    }
+                    output(displayValue);
+                    break;
+                case 'clear':
+                    displayValue = '0';
+                    memory.clear();
+                    output(displayValue);
+                    break;
+                case 'percent':
+                    displayValue = String(parseFloat(displayValue) / 100);
+                    output(displayValue);
+                    break;
+                default:
+                    break;
+            }
+    }
+    output(displayValue);
+    } else { // if area of keyContainer having no value is selected
+        displayValue += '';
+    }
 })
 
 // check what it is (number, operator or extra)
@@ -156,3 +168,12 @@ output(displayValue);
 // TODO: On first click of numbers, make the display blank and store the numbers
 
 // todo: = garera + garna mildaina, need to save the value in accumulator
+
+// TODO: my calculator doesn't reset the operator in the memory, looks like, so pahila ko operation le
+//       nai operate gari rancha in the new value even if we don't update the operator. FIX IT! 
+//       eg: 2 + 3 = 8 cha ani, we press '7' '=' then 7 is added and the result is 15. We don't want this.
+//       we don't the previous operator to operate on our current values when pressed '='. Result in above
+//       case should be 7 nai when = is pressed in that case
+//      for other operations than =, they seem to work fine (FOR NOW)
+
+// TODO: when adding any number other than numeric, it shows NaN, instead, show 'Not Computable' or sth
