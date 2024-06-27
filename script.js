@@ -96,6 +96,9 @@ keyContainer.addEventListener('click', (press) => {
                 memory.accumulator = displayValue;
                 memory.operator = value;
             } else {
+                if (memory.operator === '=') {
+                    memory.accumulator = displayValue;
+                }
                 memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue);
                 displayValue = memory.accumulator;
                 memory.operator = value;
@@ -152,4 +155,7 @@ keyContainer.addEventListener('click', (press) => {
 
 // if extra, manipulate the number in display and store it
 
-// TODO: CAN'T STORE MORE THAN 1 NUMBER; LINE 88
+// TODO: CAN'T STORE MORE THAN 1 NUMBER; LINE 88... used displayBuffer to solve that
+
+// TODO: CAN'T do 88 + 20 = 108 + 2 = 110. 
+//      it shows 88 + 20 = 108 and then 20 + (108) + 2 = 110; 
