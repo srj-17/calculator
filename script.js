@@ -112,7 +112,7 @@ keyContainer.addEventListener('click', (press) => {
                 memory.operator = value;
                 memory.displayBuffer = value;
             } else { // for other operators than '='
-                if (!memory.accumulator || memory.operator === '=') {
+                if (!memory.accumulator || memory.operator === '=') { // **************
                         memory.accumulator = displayValue;
                         memory.operator = value;
                 } else {
@@ -125,11 +125,18 @@ keyContainer.addEventListener('click', (press) => {
                                           // then display thd displayValue and empty displayValue
             }
         } else if (extraKeys.includes(press.target)) {
+            // if extra key comes directly after +, setting it up for later (esp. % and -)
+            if (memory.accumulator && memory.operator) {
+                displayValue = memory.accumulator; 
+            }
                 switch (value) {
                     case '.':
                         if (!displayValue.includes('.')) {
                             displayValue = displayValue.concat(value);
-                        } 
+                        }
+                        if (memory.accumulator && memory.operator) {
+                            displayValue = '0.';
+                        }
                         output(displayValue);
                         break;
                     case 'sign':
@@ -156,6 +163,10 @@ keyContainer.addEventListener('click', (press) => {
         // just to be sure
         if (displayValue === '') {
             displayValue = '0';
+        } 
+        if (displayValue === 'NaN') {
+            displayValue = '0';
+            memory.clear();
         }
     output(displayValue);
     } else { // if area of keyContainer having no value is selected
