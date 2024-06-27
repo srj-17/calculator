@@ -50,6 +50,10 @@ let memory = {
             case "*":
                 result = multiply(+accumulator, +secondNumber);
                 break;
+
+            case "=":
+                result = accumulator;
+                break;
     
             default:
                 result = accumulator;
@@ -76,53 +80,28 @@ function operatorKeyContains(value) {
 keyContainer.addEventListener('click', (press) => {
     value = press.target.value;
     if (value) {
-        // if button pressed after an operator button
-        if (operatorKeyContains(memory.displayBuffer)) {
-            displayValue = '';
-            memory.displayBuffer = null;
-        } 
-
         // for initial operation after turning calculator on
         if (displayValue === '0') {
             displayValue = '';
         }
         if (numKeys.includes(press.target)) {
+            if (memory.operator) {
+                displayValue = '';
+            }
             displayValue = displayValue.concat(value);
             output(displayValue);
         } else if (operatorKeys.includes(press.target)) {
-            if (value === '=') {
-                if (!memory.accumulator) {
-                    memory.accumulator = displayValue; // yo third ko else le nai gardincha ki jasto lagyo
-                } 
-                else if (memory.operator === '=') {
-                    // ************************
-                    // for double = presses
-                    // because displayValue = '' because of displayBuffer = '=' during previous =, 
-                    if (memory.displayBuffer !== null) {
-                        memory.displayValue = memory.accumulator;
-                        memory.displayBuffer = null;
-                    }
-                    // don't do this if previous operation was = 
-                } else {
-                    memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue) 
-                    displayValue = memory.accumulator;
-                }
-                memory.displayBuffer = value;
+            if (!memory.accumulator) { 
+                memory.accumulator = displayValue;
                 memory.operator = value;
-            } else { // for other operators than '=', eg: +
-                if (!memory.accumulator) { // **************
-                    memory.accumulator = displayValue;
-                    memory.operator = value;
-                } else if (memory.operator === '=') {
-                    memory.accumulator = displayValue; 
-                    memory.operator = value;
-                } else {
-                    memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue);
+            } 
+            else {
+                memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue);
+                displayValue = memory.accumulator;
+                memory.operator = value;
+                if (memory.operator === value) {
                     displayValue = memory.accumulator;
-                    memory.operator = value;
                 }
-                memory.displayBuffer = value; // next time accessed, if displayBuffer is seen as operator, 
-                                          // then display thd displayValue and empty displayValue
             }
         } else if (extraKeys.includes(press.target)) {
             // if extra key comes directly after +, setting it up for later (esp. % and -)
