@@ -30,7 +30,6 @@ const multiply = function(accumulator, secondNumber) {
 // calc object for storing what's in calculator's memory
 let memory = {
     accumulator: null, // fistNumber acts as accumulator
-    secondNumber: null,
     displayBuffer: null,
     operator: null,
     operate (operator, accumulator, secondNumber) {
@@ -58,16 +57,11 @@ let memory = {
         }
         return String(result);
     }, 
-    
-    full() {
-        return this.accumulator && this.secondNumber && this.operator;
-    },
 
     clear() {
         this.accumulator = null;
         this.displayBuffer = null;
         this.operator = null;
-        this.secondNumber = null;
     }
 }
 
@@ -110,8 +104,7 @@ keyContainer.addEventListener('click', (press) => {
                     }
                     // don't do this if previous operation was = 
                 } else {
-                    [memory.accumulator, memory.secondNumber] = 
-                    [memory.operate(memory.operator, memory.accumulator, displayValue), null];
+                    memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue) 
                     displayValue = memory.accumulator;
                 }
                 memory.displayBuffer = value;
@@ -124,8 +117,7 @@ keyContainer.addEventListener('click', (press) => {
                     memory.accumulator = displayValue; 
                     memory.operator = value;
                 } else {
-                    [memory.accumulator, memory.secondNumber] = 
-                    [memory.operate(memory.operator, memory.accumulator, displayValue), null];
+                    memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue);
                     displayValue = memory.accumulator;
                     memory.operator = value;
                 }
@@ -189,7 +181,3 @@ keyContainer.addEventListener('click', (press) => {
 // if operator, process the number and store, display
 
 // if extra, manipulate the number in display and store it
-
-// TODO: 
-
-// TODO: 
