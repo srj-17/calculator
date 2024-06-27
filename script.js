@@ -100,6 +100,9 @@ keyContainer.addEventListener('click', (press) => {
                 if (!memory.accumulator) {
                     displayValue = 'Not Calculable';
                 } 
+                else if (memory.operator === '=') {
+                    memory.accumulator = displayValue;
+                }
                 else {
                     [memory.accumulator, memory.secondNumber] = 
                     [memory.operate(memory.operator, memory.accumulator, displayValue), null];
@@ -165,15 +168,8 @@ keyContainer.addEventListener('click', (press) => {
 
 // if extra, manipulate the number in display and store it
 
-// TODO: On first click of numbers, make the display blank and store the numbers
-
-// todo: = garera + garna mildaina, need to save the value in accumulator
-
-// TODO: my calculator doesn't reset the operator in the memory, looks like, so pahila ko operation le
-//       nai operate gari rancha in the new value even if we don't update the operator. FIX IT! 
-//       eg: 2 + 3 = 8 cha ani, we press '7' '=' then 7 is added and the result is 15. We don't want this.
-//       we don't the previous operator to operate on our current values when pressed '='. Result in above
-//       case should be 7 nai when = is pressed in that case
-//      for other operations than =, they seem to work fine (FOR NOW)
+// TODO: '=' dabda previous memory accumulator ko value aaucha, we want the display value to keep being displayed instead.
 
 // TODO: when adding any number other than numeric, it shows NaN, instead, show 'Not Computable' or sth
+//       eg: adding 5 + '.'
+//       I think the solution can be completely removing the capability of adding '.'
