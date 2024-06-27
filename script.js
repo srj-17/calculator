@@ -153,7 +153,12 @@ keyContainer.addEventListener('click', (press) => {
                 default:
                     break;
             }
-    }
+
+        }
+        // just to be sure
+        if (displayValue === '') {
+            displayValue = '0';
+        }
     output(displayValue);
     } else { // if area of keyContainer having no value is selected
         displayValue += '';
@@ -168,8 +173,14 @@ keyContainer.addEventListener('click', (press) => {
 
 // if extra, manipulate the number in display and store it
 
-// TODO: '=' dabda previous memory accumulator ko value aaucha, we want the display value to keep being displayed instead.
+// TODO: previous problem arises for + as well when you do 3+3 and press =, you get 6, now you press 3 + you get 6 and 3 = you get 9.
+//                                                                  you should get 6  
+// i think this builds on top of previous problem, see git log
 
 // TODO: when adding any number other than numeric, it shows NaN, instead, show 'Not Computable' or sth
 //       eg: adding 5 + '.'
-//       I think the solution can be completely removing the capability of adding '.'
+//       I think the solution can be completely removing the capability of adding '.' ---- 1
+//       See this behaviour in CALC YA LATER and solve accordingly
+
+
+// TODO: 0 bhako bela ma + press gare display empty huncha, change that
