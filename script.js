@@ -118,14 +118,11 @@ keyContainer.addEventListener('click', (press) => {
                 memory.operator = value;
             } else { // for other operators than '=', eg: +
                 if (!memory.accumulator) { // **************
-                    if (memory.operator && memory.operator !== '=') {
-                        displayValue = memory.accumulator;
-                    }
                     memory.accumulator = displayValue;
                     memory.operator = value;
                 } else if (memory.operator === '=') {
-                        memory.accumulator = displayValue;
-                        memory.operator = value;
+                    displayValue = memory.accumulator; // because it was set null above after passing displayBuffer = (or whatever) 
+                    memory.operator = value;
                 } else {
                     [memory.accumulator, memory.secondNumber] = 
                     [memory.operate(memory.operator, memory.accumulator, displayValue), null];
@@ -193,4 +190,6 @@ keyContainer.addEventListener('click', (press) => {
 
 // if extra, manipulate the number in display and store it
 
-// TODO: when 2 = is pressed after a = operation, it shows previous value of accumulator
+// TODO: 2 + 3 = + ==> shows 0, similar to the = problem solved just before
+
+// TODO: 
