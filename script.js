@@ -101,7 +101,7 @@ keyContainer.addEventListener('click', (press) => {
                     memory.accumulator = displayValue; // yo third ko else le nai gardincha ki jasto lagyo
                 } 
                 else if (memory.operator === '=') {
-                    displayValue = memory.accumulator;
+                    displayValue = memory.accumulator; // for double = presses
                     memory.accumulator = displayValue;
                 }
                 else {
@@ -176,4 +176,6 @@ keyContainer.addEventListener('click', (press) => {
 //       I think the solution can be completely removing the capability of adding '.' ---- 1
 //       See this behaviour in CALC YA LATER and solve accordingly
 
-// TODO: 1 = and again = then 0, this happens because of line 86, 
+// todo: the result after = is not sign changed by the press of +/-
+//       no need to do this for results after add, subtract repeatedly, i think
+// dude, = pachi tesi ma operate gartheo, tyo garnai chodyo ta kina ho damn
