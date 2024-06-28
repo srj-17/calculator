@@ -7,6 +7,11 @@ const operatorKeys = Array.from(document.querySelectorAll('.operator-key'));
 const extraKeys = Array.from(document.querySelectorAll('.x-key'));
 let displayValue = '';
 
+function round(value, precision) {
+    let multiplier = Math.pow(10, precision || 0);
+    return String(Math.round(value * multiplier) / multiplier);
+}
+
 function output (text) {
     display.textContent = text;
 }
@@ -100,7 +105,9 @@ keyContainer.addEventListener('click', (press) => {
                     memory.accumulator = displayValue;
                 }
                 memory.accumulator = memory.operate(memory.operator, memory.accumulator, displayValue);
-                displayValue = memory.accumulator;
+                // round to 2 precision
+                memory.accumulator = round(memory.accumulator, 2);
+                displayValue = memory.accumulator; 
                 memory.operator = value;
                 if (memory.operator === value) {
                     displayValue = memory.accumulator;
