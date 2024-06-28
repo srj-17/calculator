@@ -93,11 +93,11 @@ keyContainer.addEventListener('click', (press) => {
             memory.accumulator = '0';
             displayValue = '';
         }
+        if (memory.displayBuffer) { // operation pachi ko ho ki bhanera check gareko
+            displayValue = '';
+            memory.displayBuffer = false;
+        }
         if (numKeys.includes(press.target)) {
-            if (memory.displayBuffer) { 
-                displayValue = '';
-                memory.displayBuffer = false;
-            }
             displayValue = displayValue.concat(value);
             output(displayValue);
         } else if (operatorKeys.includes(press.target)) {
@@ -124,10 +124,10 @@ keyContainer.addEventListener('click', (press) => {
                     if (displayValue) {
                         if (!displayValue.includes('.')) {
                             displayValue = displayValue.concat(value);
-                        }
+                        } 
                     } else if (!displayValue || memory.accumulator) { // if operation pachi ho bhane value goes to memory accumulator
                         displayValue = '0.';
-                    }
+                    } 
                     break;
                 case 'sign':
                     if (displayValue.at(0) === '-') {
