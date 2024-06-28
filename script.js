@@ -93,11 +93,15 @@ keyContainer.addEventListener('click', (press) => {
             memory.accumulator = '0';
             displayValue = '';
         }
-        if (memory.displayBuffer) { // operation pachi ko ho ki bhanera check gareko
+        if (memory.displayBuffer && value === '.') {
             displayValue = '';
             memory.displayBuffer = false;
         }
         if (numKeys.includes(press.target)) {
+            if (memory.displayBuffer) { // operation pachi ko ho ki bhanera check gareko
+                displayValue = '';
+                memory.displayBuffer = false;
+            }
             displayValue = displayValue.concat(value);
             output(displayValue);
         } else if (operatorKeys.includes(press.target)) {
