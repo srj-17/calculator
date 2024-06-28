@@ -149,7 +149,7 @@ keyContainer.addEventListener('click', (press) => {
                     break;
                 case 'backspace':
                     displayValue = displayValue.split('').toSpliced(-1, 1).join('');
-                    if (memory.operator === '=') {
+                    if (memory.operator) {
                         displayValue = '0';
                         memory.accumulator = '0';
                     }
