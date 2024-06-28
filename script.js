@@ -110,8 +110,6 @@ keyContainer.addEventListener('click', (press) => {
         } else if (extraKeys.includes(press.target)) {
             switch (value) {
                 case '.':
-                    // this doesn't work as expected for single inputs
-                    // if no displayValue, it will be null
                     if (displayValue) {
                         if (!displayValue.includes('.')) {
                             displayValue = displayValue.concat(value);
@@ -151,11 +149,3 @@ keyContainer.addEventListener('click', (press) => {
         displayValue += '';
     }
 })
-
-// check what it is (number, operator or extra)
-
-// if number, display the number
-
-// if operator, process the number and store, display
-
-// if extra, manipulate the number in display and store it
