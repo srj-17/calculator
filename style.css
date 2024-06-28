@@ -32,8 +32,12 @@ body {
     margin: 3px;
     border: rgb(73, 85, 63) solid 3px;
     border-radius: 2px;
-    height: 10vh;
-    font-size: 9vh;
+    height: 8vw;
+    font-size: 5vw;
+    /* this is the only fix for numbers fitting to the screen that I have found right now, i.e.
+        decreasing the font-size such that display includes all 9 digits
+        WHILE specifying display size and font-size using same relative units -- 
+        HERE according to viewport width so that they decrease in size propotionally */
 }
 
 .key-container {
@@ -120,3 +124,7 @@ button {
 .row-two .right-column button:active {
     background-color: rgb(120, 76, 76, 0.5);
 }
+
+/* while the calculator can be made to look good on mobile devices right now making everything
+   bigger, we're not doing that because the primary device is computer and the calculator would 
+   look very bad if we did that (made everything bigger) */ 
