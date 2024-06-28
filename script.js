@@ -9,7 +9,11 @@ let displayValue = '';
 
 function round(value, precision) {
     let multiplier = Math.pow(10, precision || 0);
-    return String(Math.round(value * multiplier) / multiplier);
+    result = String(Math.round(value * multiplier) / multiplier);
+    if (result.length >= 9) {
+        result = String(parseFloat(result).toExponential(2));
+    }
+    return String(result);
 }
 
 function output (text) {
@@ -64,6 +68,10 @@ let memory = {
                 result = accumulator;
                 break;
         }
+        result = String(result);
+        if (result.length >= 9) {
+            result = String(parseFloat(result).toExponential(2));
+        }
         return String(result);
     }, 
 
@@ -84,7 +92,7 @@ function operatorKeyContains(value) {
 // receive a button press
 keyContainer.addEventListener('click', (press) => {
     value = press.target.value;
-    if (value && displayValue.length < 9) {
+    if (value) {
         // for initial operation after turning calculator on
         if (displayValue === '0') {
             displayValue = '';
@@ -102,7 +110,9 @@ keyContainer.addEventListener('click', (press) => {
                 displayValue = '';
                 memory.displayBuffer = false;
             }
-            displayValue = displayValue.concat(value);
+            if (displayValue.length < 9) {
+                displayValue = displayValue.concat(value);
+            }
             output(displayValue);
         } else if (operatorKeys.includes(press.target)) {
             if (!memory.accumulator) { 
@@ -125,7 +135,7 @@ keyContainer.addEventListener('click', (press) => {
         } else if (extraKeys.includes(press.target)) {
             switch (value) {
                 case '.':
-                    if (displayValue) {
+                    if (displayValue && displayValue.length < 9) {
                         if (!displayValue.includes('.')) {
                             displayValue = displayValue.concat(value);
                         } 
@@ -137,7 +147,9 @@ keyContainer.addEventListener('click', (press) => {
                     if (displayValue.at(0) === '-') {
                         displayValue = displayValue.split('').toSpliced(0, 1).join('');
                     } else {
-                        displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                        if (displayValue.length < 9){
+                            displayValue = displayValue.split('').toSpliced(0, 0, '-').join('');
+                        }
                     }
                     break;
                 case 'clear':
@@ -145,7 +157,9 @@ keyContainer.addEventListener('click', (press) => {
                     memory.clear();
                     break;
                 case 'percent':
-                    displayValue = String(parseFloat(displayValue) / 100);
+                    if (displayValue.length < 9) {
+                        displayValue = String(parseFloat(displayValue) / 100);
+                    }
                     break;
                 case 'backspace':
                     displayValue = displayValue.split('').toSpliced(-1, 1).join('');
