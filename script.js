@@ -143,6 +143,13 @@ keyContainer.addEventListener('click', (press) => {
                 case 'percent':
                     displayValue = String(parseFloat(displayValue) / 100);
                     break;
+                case 'backspace':
+                    displayValue = displayValue.split('').toSpliced(-1, 1).join('');
+                    if (memory.operator === '=') {
+                        displayValue = '0';
+                        memory.accumulator = '0';
+                    }
+                    break;
                 default:
                     break;
             }
