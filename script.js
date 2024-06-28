@@ -159,13 +159,3 @@ keyContainer.addEventListener('click', (press) => {
 // if operator, process the number and store, display
 
 // if extra, manipulate the number in display and store it
-
-// TODO: CAN'T STORE MORE THAN 1 NUMBER; LINE 88... used displayBuffer to solve that
-
-// TODO: CAN'T do 88 + 20 = 108 + 2 = 110. 
-//      it shows 88 + 20 = 108 and then 20 + (108) + 2 = 110;  DONE
-
-// TODO: '.' (only .) doesn't work as expected
-// esp. in -- directly using . (without pre-numbers)
-
-// change the name of memory.displayBuffer to more clearer, doesn't make sense
