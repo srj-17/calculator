@@ -85,7 +85,7 @@ keyContainer.addEventListener('click', (press) => {
             displayValue = '';
         }
         if (numKeys.includes(press.target)) {
-            if (memory.displayBuffer) { // this doesn't allow to store more than 1 number
+            if (memory.displayBuffer) { 
                 displayValue = '';
                 memory.displayBuffer = false;
             }
@@ -108,11 +108,16 @@ keyContainer.addEventListener('click', (press) => {
             }
             memory.displayBuffer = true;
         } else if (extraKeys.includes(press.target)) {
-            // if extra key comes directly after +, setting it up for later (esp. % and -)
             switch (value) {
                 case '.':
-                    if (!displayValue.includes('.')) {
-                        displayValue = displayValue.concat(value);
+                    // this doesn't work as expected for single inputs
+                    // if no displayValue, it will be null
+                    if (displayValue) {
+                        if (!displayValue.includes('.')) {
+                            displayValue = displayValue.concat(value);
+                        }
+                    } else if (!displayValue || memory.accumulator) { // if operation pachi ho bhane value goes to memory accumulator
+                        displayValue = '0.';
                     }
                     break;
                 case 'sign':
@@ -158,4 +163,9 @@ keyContainer.addEventListener('click', (press) => {
 // TODO: CAN'T STORE MORE THAN 1 NUMBER; LINE 88... used displayBuffer to solve that
 
 // TODO: CAN'T do 88 + 20 = 108 + 2 = 110. 
-//      it shows 88 + 20 = 108 and then 20 + (108) + 2 = 110; 
+//      it shows 88 + 20 = 108 and then 20 + (108) + 2 = 110;  DONE
+
+// TODO: '.' (only .) doesn't work as expected
+// esp. in -- directly using . (without pre-numbers)
+
+// change the name of memory.displayBuffer to more clearer, doesn't make sense
