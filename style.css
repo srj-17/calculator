@@ -99,13 +99,25 @@ button {
 }
 
 .row-one button {
-    background-color: rgb(160, 163, 157);
+    background-color: rgb(160, 163, 157, 1);
+}
+
+.row-one button:active {
+    background-color: rgb(160, 163, 157, 0.5);
 }
 
 .row-two .left-column button {
-    background-color: rgb(120, 95, 95);
+    background-color: rgba(110, 92, 92, 1);
+}
+
+.row-two .left-column button:active {
+    background-color: rgba(110, 92, 92, 0.5);
 }
 
 .row-two .right-column button {
-    background-color: rgb(120, 76, 76);
+    background-color: rgb(120, 76, 76, 1);
+}
+
+.row-two .right-column button:active {
+    background-color: rgb(120, 76, 76, 0.5);
 }
