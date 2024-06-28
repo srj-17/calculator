@@ -8,18 +8,26 @@ body {
     height: 100vh;
     justify-content: center;
     align-items: center;
+    background-color: #313638;
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
+    background-color: #648767;
+    border: #919b92 solid 5px;
+    border-radius: 4px;
+    padding: 4px 2px;
 }
 
 .calculator .display {
     display: flex;
     justify-content: end;
     align-items: center;
-    padding: 2px;
+    padding: 0px 2px;
+    background-color: #E8E9EB;
+    color: black;
+    margin: 3px;
 }
 
 .key-container {
