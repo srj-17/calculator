@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    font-family: Roboto, Arial, Calibri;
+    font-weight: 500;
 }
 
 body {
@@ -25,14 +27,19 @@ body {
     justify-content: end;
     align-items: center;
     padding: 0px 2px;
-    background-color: #E8E9EB;
-    color: black;
+    background-color: #566458;
+    color: rgb(50, 49, 49);
     margin: 3px;
+    border: rgb(73, 85, 63) solid 3px;
+    border-radius: 2px;
+    height: 10vh;
+    font-size: 9vh;
 }
 
 .key-container {
     display: flex;
     flex-direction: column;
+    padding: 0px 2px;
 }
 
 .row {
@@ -40,6 +47,18 @@ body {
     justify-content: space-between;
     padding: 2px;
     margin: 0px;
+}
+
+.row-one {
+    gap: 2px;
+}
+
+.row-one button{
+    flex-basis: 100%;
+}
+
+.row-two {
+    gap: 5px;
 }
 
 .row-two .right-column {
@@ -67,4 +86,26 @@ body {
 
 .sub-row-three button[value="0"] {
     flex-basis: 100%;
+}
+
+button {
+    border: 0px;
+    border-radius: 2px;
+    margin: 1.5px;
+    width: 5vw;
+    height: 5vw;
+    font-size: 2vw;
+    font-weight: bold;
+}
+
+.row-one button {
+    background-color: rgb(160, 163, 157);
+}
+
+.row-two .left-column button {
+    background-color: rgb(120, 95, 95);
+}
+
+.row-two .right-column button {
+    background-color: rgb(120, 76, 76);
 }
