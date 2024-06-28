@@ -44,7 +44,6 @@ body {
 
 .row {
     display: flex;
-    justify-content: space-between;
     padding: 2px;
     margin: 0px;
 }
