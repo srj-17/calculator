@@ -89,6 +89,10 @@ keyContainer.addEventListener('click', (press) => {
         if (displayValue === '0') {
             displayValue = '';
         }
+        if (displayValue === 'HOHOHOH') {
+            memory.accumulator = '0';
+            displayValue = '';
+        }
         if (numKeys.includes(press.target)) {
             if (memory.displayBuffer) { 
                 displayValue = '';
@@ -151,6 +155,10 @@ keyContainer.addEventListener('click', (press) => {
             displayValue = '0';
             memory.clear();
         }
+        if (displayValue === 'Infinity') {
+            displayValue = 'HOHOHOH';
+            memory.clear();
+        } 
     output(displayValue);
     } else { // if area of keyContainer having no value is selected
         displayValue += '';
