@@ -84,7 +84,7 @@ function operatorKeyContains(value) {
 // receive a button press
 keyContainer.addEventListener('click', (press) => {
     value = press.target.value;
-    if (value) {
+    if (value && displayValue.length < 9) {
         // for initial operation after turning calculator on
         if (displayValue === '0') {
             displayValue = '';
